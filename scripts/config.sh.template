@@ -1,0 +1,14 @@
+# After filling in the info, rename this file to "config.sh"
+
+# OpenBench credentials
+USERNAME='<unset>'
+PASSWORD='<unset>'
+
+# directory of Syzygy files (optional)
+SYZYGY=
+
+# threads used by OpenBench client; blank = autodetect
+THREADS=
+
+# extra options to OpenBench client (try -h for help)
+EXTRA_OPTS=''
