@@ -47,10 +47,10 @@ Container mounts:
   /config.sh   Configuration file for the container. The script is expected
                to set the following shell variables:
 
-               OPENBENCH_USERNAME   User name for OpenBench         (mandatory)
-               OPENBENCH_PASSWORD   Password for OpenBench          (mandatory)
-               THREADS              Number of threads (autodetected if omitted)
-               EXTRA_OPTS           Extra client options             (optional)
+               USERNAME    User name for OpenBench                  (mandatory)
+               PASSWORD    Password for OpenBench                   (mandatory)
+               THREADS     Number of threads          (autodetected if omitted)
+               EXTRA_OPTS  Extra client options                      (optional)
 
   /syzygy/     Directory for the Syzygy endgame tablebases           (optional)
 "
