@@ -5,7 +5,7 @@ PWD="$(pwd)"
 IMAGE=skiminki/openbench-client
 CONFIG=config.sh
 
-if [ -f  "${PWD}/${CONFIG}" ]
+if [ -f "${PWD}/${CONFIG}" ]
 then
 	source "${PWD}/${CONFIG}"
 	if [ -n "${SYZYGY}" ]
