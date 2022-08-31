@@ -73,7 +73,12 @@ configure_openbench_client ()
 	exit 1
     fi
 
-    source /config.sh
+    # convert config.sh to Unix newlines before sourcing
+    TMPFILE="$(mktemp)"
+    sed -e 's/\r$//' /config.sh >"${TMPFILE}"
+    source "${TMPFILE}"
+    rm -- "${TMPFILE}"
+
     if [    "${USERNAME:-<unset>}" = "<unset>" \
 	 -o "${PASSWORD:-<unset>}" = "<unset>" ]
     then
