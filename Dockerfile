@@ -22,6 +22,7 @@ RUN apt-get update && \
     apt-get dist-upgrade -y && \
     DEBIAN_FRONTEND="noninteractive" TZ="Europe/Helsinki" apt-get install --no-install-recommends -y \
     cargo \
+    clang \
     curl \
     g++ \
     gcc \
