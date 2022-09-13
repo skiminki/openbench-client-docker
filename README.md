@@ -29,8 +29,9 @@ Starting the container:
 -----------------------
 
 Launch the container with the following mounts:
-- /config.sh --- The configuration and credentials file
-- /syzygy (optional) --- The Syzygy 6-men tablebase files. Optional, used when available.
+- /config.sh (mandatory, read-only) --- The configuration and credentials file
+- /syzygy (optional, read-only) --- The Syzygy 6-men tablebase files. Optional, used when available.
+- /cache (optional, read-write) --- Cache for persistent files such as engine builds, fetched networks, and .cargo directory for fetched rust packages.
 
 Example:
 ```

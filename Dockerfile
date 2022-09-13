@@ -39,9 +39,11 @@ RUN apt-get update && \
     && \
     rm -rf /var/lib/apt/lists/*
 
-# Non-root user to run the tests
+# Non-root user to run the tests and /cache
 RUN groupadd openbench && \
-    useradd -m --no-log-init -g openbench -d /openbench openbench
+    useradd -m --no-log-init -g openbench -d /openbench openbench && \
+    mkdir /cache && \
+    chown openbench:openbench /cache
 USER openbench:openbench
 
 # Download the client from github, clean-up some unneeded files and directories
@@ -63,7 +65,7 @@ COPY bin/* /usr/local/bin/
 # Built-in frontend scripts for easy container management
 COPY scripts/* /scripts/
 
-LABEL description="OpenBench Testing Framework client for http://chess.grantnet.us/ .\
+LABEL description="OpenBench Testing Framework client for http://chess.grantnet.us/ . \
 Please see https://hub.docker.com/repository/docker/skiminki/openbench-client\
 on how to configure the container. Sources to build the Docker image at \
 https://github.com/skiminki/openbench-client-docker ."

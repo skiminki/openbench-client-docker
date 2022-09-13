@@ -4,11 +4,14 @@
 USERNAME='<unset>'
 PASSWORD='<unset>'
 
-# directory of Syzygy files (optional)
-SYZYGY=
-
 # threads used by OpenBench client; blank = autodetect
 THREADS=
 
+# directory of Syzygy files (optional)
+SYZYGY=
+
+# cache directory for builds, networks, etc (optional)
+CACHE=
+
 # extra options to OpenBench client (try -h for help)
-EXTRA_OPTS=''
+EXTRA_OPTS=

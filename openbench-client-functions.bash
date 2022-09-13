@@ -115,6 +115,18 @@ configure_openbench_client ()
 	SYZYGYENABLED=
     fi
 
+    # setup cache
+    mkdir -p /cache/Client
+    if [ \! -L /openbench/OpenBench/Client ]
+    then
+	cp /openbench/OpenBench/Client/* /cache/Client/
+	rm -r /openbench/OpenBench/Client
+	ln -snf /cache/Client /openbench/OpenBench/
+    fi
+
+    mkdir -p /cache/.cargo
+    ln -snf /cache/.cargo /openbench/
+
     echo "========================================================="
     echo "OpenBench username:        ${USERNAME:-<unset>}"
     echo "OpenBench threads:         ${THREADS:-<unset>} threads"
