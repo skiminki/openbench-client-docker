@@ -30,6 +30,7 @@ RUN apt-get update && \
     git-lfs \
     golang \
     libglib2.0-bin \
+    llvm \
     make \
     python3 \
     python3-distutils \
