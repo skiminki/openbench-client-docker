@@ -48,11 +48,16 @@ RUN groupadd openbench && \
 USER openbench:openbench
 
 # Download the client from github, clean-up some unneeded files and directories
-# to save some space
+# to save some space.
+#
+# Note: argument OPENBENCH_GIT_HASH must be set
+ARG OPENBENCH_GIT_HASH
 RUN cd /openbench && \
     git lfs install && \
     git clone --single-branch --branch master https://github.com/AndyGrant/OpenBench.git && \
     cd OpenBench && \
+    git config advice.detachedHead false && \
+    git checkout "${OPENBENCH_GIT_HASH}" && \
     rm -r .git CoreFiles/cutechess-windows.exe
 
 # Entrypoint bash scripts
@@ -67,8 +72,9 @@ COPY bin/* /usr/local/bin/
 COPY scripts/* /scripts/
 
 LABEL description="OpenBench Testing Framework client for http://chess.grantnet.us/ . \
-Please see https://hub.docker.com/repository/docker/skiminki/openbench-client\
+Please see https://hub.docker.com/repository/docker/skiminki/openbench-client \
 on how to configure the container. Sources to build the Docker image at \
-https://github.com/skiminki/openbench-client-docker ."
+https://github.com/skiminki/openbench-client-docker . \
+OpenBench Testing Framework client git commit: ${OPENBENCH_GIT_HASH}"
 
 ENTRYPOINT ["/openbench-entrypoint.sh"]
