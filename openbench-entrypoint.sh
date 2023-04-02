@@ -63,6 +63,7 @@ case "${CMD}" in
 	    exit 3
 	fi
 	configure_openbench_client
+	rm -f "$WORKER_EXIT_FILE"
 	launch_openbench_client
 	;;
 
