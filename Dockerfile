@@ -1,5 +1,5 @@
 # Docker image for OpenBench client
-# Copyright (C) 2022  Sami Kiminki
+# Copyright (C) 2022-2023  Sami Kiminki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Baseline
-FROM ubuntu:22.10
+FROM ubuntu:23.04
 
 # Update and install packages needed to run OpenBench engine testing
 RUN apt-get update && \
@@ -29,6 +29,7 @@ RUN apt-get update && \
     git \
     git-lfs \
     golang \
+    libclang-rt-dev \
     libglib2.0-bin \
     llvm \
     make \
