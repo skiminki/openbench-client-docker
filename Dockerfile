@@ -54,7 +54,7 @@ USER openbench:openbench
 ARG OPENBENCH_GIT_HASH
 RUN cd /openbench && \
     git lfs install && \
-    git clone --single-branch --branch master https://github.com/AndyGrant/OpenBench.git && \
+    git clone --single-branch --branch master https://github.com/skiminki/OpenBench.git && \
     cd OpenBench && \
     git config advice.detachedHead false && \
     git checkout "${OPENBENCH_GIT_HASH}" && \
