@@ -33,11 +33,12 @@ fi
 if [ $# -ge 1 ]
 then
     case "$1" in
-	"bash")     CMD="bash"      ; shift ;;
-	"status")   CMD="status"    ; shift ;;
-	"start")    CMD="start"     ; shift ;;
-	"stop")     CMD="stop"      ; shift ;;
-	"scripts")  CMD="scripts"   ; shift ;;
+	"bash")      CMD="bash"      ; shift ;;
+	"bench-all") CMD="bench-all" ; shift ;;
+	"status")    CMD="status"    ; shift ;;
+	"start")     CMD="start"     ; shift ;;
+	"stop")      CMD="stop"      ; shift ;;
+	"scripts")   CMD="scripts"   ; shift ;;
     esac
 fi
 
@@ -102,4 +103,10 @@ case "${CMD}" in
 	cd /openbench
 	exec bash
 	;;
+
+    "bench-all")
+	configure_openbench_client
+	launch_openbench_bench_all
+	;;
+
 esac
