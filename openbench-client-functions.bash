@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Docker image for OpenBench client
-# Copyright (C) 2022  Sami Kiminki
+# Copyright (C) 2022-2023  Sami Kiminki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 WORKER_EXIT_FILE="/openbench/OpenBench/Client/openbench.exit"
-WORKER_SHELL_PIDFILE="/openbench/worker-shell.pid"
+WORKER_SHELL_PIDFILE="/tmp/worker-shell.pid"
 
 print_help ()
 {
@@ -116,16 +116,8 @@ configure_openbench_client ()
     fi
 
     # setup cache
-    mkdir -p /cache/Client
-    if [ \! -L /openbench/OpenBench/Client ]
-    then
-	cp /openbench/OpenBench/Client/* /cache/Client/
-	rm -r /openbench/OpenBench/Client
-	ln -snf /cache/Client /openbench/OpenBench/
-    fi
-
-    mkdir -p /cache/.cargo
-    ln -snf /cache/.cargo /openbench/
+    mkdir -p /cache/Client /cache/{.cache,.cargo} /cache/Scripts/{Networks,Repositories,Binaries}
+    cp /openbench/OpenBench/Client.orig/* /cache/Client/
 
     echo "========================================================="
     echo "OpenBench username:        ${USERNAME:-<unset>}"

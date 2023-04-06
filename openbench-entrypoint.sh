@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Docker image for OpenBench client
-# Copyright (C) 2022  Sami Kiminki
+# Copyright (C) 2022-2023  Sami Kiminki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 set -e
+
+export HOME="/openbench"
 
 source /openbench-client-functions.bash
 
