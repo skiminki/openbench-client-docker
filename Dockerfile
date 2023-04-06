@@ -44,8 +44,9 @@ RUN apt-get update && \
 # Non-root user to run the tests and /cache
 RUN groupadd openbench && \
     useradd -m --no-log-init -g openbench -d /openbench openbench && \
+    chmod 755 /openbench && \
     mkdir /cache && \
-    chown openbench:openbench /cache
+    chown openbench:openbench /cache && chmod 777 /cache
 USER openbench:openbench
 
 # Download the client from github, clean-up some unneeded files and directories
@@ -60,6 +61,14 @@ RUN cd /openbench && \
     git config advice.detachedHead false && \
     git checkout "${OPENBENCH_GIT_HASH}" && \
     rm -r .git CoreFiles/cutechess-windows.exe
+
+# Rename the client directory. The contents of Client.orig are going is going to be copied
+# Client (which is at /cache/Client) on launch.
+# on launch.
+RUN mv /openbench/OpenBench/Client /openbench/OpenBench/Client.orig && \
+    ln -snf /cache/Client /openbench/OpenBench/ && \
+    ln -snf /cache/.cargo /cache/.cache /openbench/ && \
+    ln -snf /cache/Scripts/Networks /cache/Scripts/Repositories /cache/Scripts/Binaries /openbench/OpenBench/Scripts/
 
 # Entrypoint bash scripts
 COPY openbench-entrypoint.sh \
