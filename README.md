@@ -5,8 +5,37 @@ This is a fully-featured image for OpenBench client with support for
 all OpenBench engines.
 
 
-Configuration
--------------
+Setup and running the container:
+--------------------------------
+
+**Run the following command in an empty directory:**
+```
+docker run -it --rm --name openbench-client skiminki/openbench-client scripts | bash
+```
+
+This extracts scripts for easy container management with a template
+for configuration file. In addition, the cache subdirectory is created
+to speed up successive launches of the container.
+
+**Fill in the info in config.sh.**
+
+Use config.sh.template as the starting point.
+
+**Start the container**
+
+```
+./start-openbench-client.sh
+```
+
+**Stop the container** (in another terminal)
+
+```
+./stop-openbench-client.sh --wait
+```
+
+
+Configuring the container: (manual)
+-----------------------------------
 
 Create file config.sh with the following info:
 
@@ -25,8 +54,9 @@ THREADS=
 EXTRA_OPTS=''
 ```
 
-Starting the container:
------------------------
+
+Starting the container: (manual)
+--------------------------------
 
 Launch the container with the following mounts:
 - /config.sh (mandatory, read-only) --- The configuration and credentials file
@@ -42,8 +72,8 @@ docker run -it --rm --name openbench-client \
 ```
 
 
-Stopping the container:
------------------------
+Stopping the container: (manual)
+--------------------------------
 
 The recommended way to stop the container is to signal and wait for exit:
 ```
@@ -60,11 +90,6 @@ Use the following command for built-in help:
 docker run -it --rm --name openbench-client skiminki/openbench-client help
 ```
 
-The container can also produce bash scripts for starting, stopping,
-and checking the status:
-```
-docker run -it --rm --name openbench-client skiminki/openbench-client scripts | bash
-```
 
 Links:
 ------

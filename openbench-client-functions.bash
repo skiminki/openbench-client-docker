@@ -62,7 +62,7 @@ print_scripts_extract ()
 {
     cd /scripts/
     echo "# Command to extract front-end scripts for container management:"
-    echo "echo \"$(tar cf - -C /scripts/ . | gzip -9 | base64 -w 0)\" | base64 -d | tar xfz - #"
+    echo "mkdir -p cache && echo \"$(tar cf - -C /scripts/ . | gzip -9 | base64 -w 0)\" | base64 -d | tar xfz - #"
 }
 
 configure_openbench_client ()
