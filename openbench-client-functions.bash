@@ -34,9 +34,8 @@ Other useful commands:
   status       Check the client status.
   scripts      Output a command that extracts start/stop/check scripts and
                a template for the config file.
-  bench-all    Build and bench all engines. This essentially runs
-               OpenBench/Scripts/bench_all.py. Useful for testing that the
-               container works.
+  bench-all    Update repositories, rebuild, and bench all
+               engines. Useful for testing that the container works.
   bash         Start a shell. Useful for debugging.
 
 Note: If /config.sh is mounted for the container, the default command is
@@ -130,6 +129,20 @@ configure_openbench_client ()
     echo "========================================================="
 }
 
+update_openbench_bench_repos ()
+{
+    cd /cache/Scripts/Repositories/
+    for repo in $(ls)
+    do
+        echo "Synchronizing /cache/Scripts/Repositories/${repo}"
+        cd "${repo}"
+        git checkout HEAD .
+        git pull
+        cd ..
+    done
+    cd /
+}
+
 set_worker_pid ()
 {
     if [ -f "${WORKER_SHELL_PIDFILE}" ]
@@ -168,6 +181,8 @@ launch_openbench_client ()
 
 launch_openbench_bench_all ()
 {
+    rm -f /openbench/OpenBench/Scripts/Binaries/*
+
     export OPENBENCH_USERNAME="${USERNAME}"
     export OPENBENCH_PASSWORD="${PASSWORD}"
     cd /openbench/OpenBench/Scripts/
