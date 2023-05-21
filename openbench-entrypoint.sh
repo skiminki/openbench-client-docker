@@ -106,6 +106,7 @@ case "${CMD}" in
 
     "bench-all")
 	configure_openbench_client
+	update_openbench_bench_repos
 	launch_openbench_bench_all
 	;;
 
