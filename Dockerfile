@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Baseline
-FROM ubuntu:23.04
+FROM ubuntu:23.10
 
 # Update and install packages needed to run OpenBench engine testing
 RUN apt-get update && \
