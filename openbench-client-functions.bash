@@ -51,7 +51,9 @@ Container mounts:
 
                USERNAME    User name for OpenBench                  (mandatory)
                PASSWORD    Password for OpenBench                   (mandatory)
+               IDENTITY    Machine pseudonym                         (optional)
                THREADS     Number of threads          (autodetected if omitted)
+               SOCKETS     Number of CPU sockets      (autodetected if omitted)
                EXTRA_OPTS  Extra client options                      (optional)
 
   /syzygy/     Directory for the Syzygy endgame tablebases           (optional)
@@ -110,6 +112,14 @@ configure_openbench_client ()
         echo "- Using concurrency: ${THREADS}"
     fi
 
+    if [ -z "${SOCKETS}" ]
+    then
+        echo "Detecting number of sockets..."
+        local NUM_SOCKETS="$(lscpu --parse==SOCKET | grep -v '^#' | sort -u | wc -l)"
+        echo "- Total sockets: ${NUM_SOCKETS}"
+        SOCKETS=${NUM_SOCKETS}
+    fi
+
     if [ -d /syzygy ]
     then
         SYZYGYENABLED=yes
@@ -122,10 +132,12 @@ configure_openbench_client ()
     cp /openbench/OpenBench/Client.orig/* /cache/Client/
 
     echo "========================================================="
-    echo "OpenBench username:        ${USERNAME:-<unset>}"
-    echo "OpenBench threads:         ${THREADS:-<unset>} threads"
-    echo "Syzygy:                    ${SYZYGYENABLED:-no}"
-    echo "Extra client opts:         ${EXTRA_OPTS}"
+    echo "OpenBench username:          ${USERNAME:-<unset>}"
+    echo "OpenBench threads:           ${THREADS:-<unset>}"
+    echo "OpenBench sockets:           ${SOCKETS:-<unset>}"
+    echo "OpenBench machine identity:  ${IDENTITY:-<unset>}"
+    echo "Syzygy:                      ${SYZYGYENABLED:-no}"
+    echo "Extra client opts:           ${EXTRA_OPTS}"
     echo "========================================================="
 }
 
@@ -155,22 +167,32 @@ set_worker_pid ()
 
 launch_openbench_client ()
 {
-    # launch the client!
-    echo -n "$$" > "${WORKER_SHELL_PIDFILE}"
+    launch_args=(-T "${THREADS}" -S "http://chess.grantnet.us/" -N ${SOCKETS})
+
     if [ -d /syzygy ]
     then
-        SYZYGYPARM="--syzygy /syzygy"
-    else
-        SYZYGYPARM=
+        launch_args+=("--syzygy" "/syzygy")
     fi
 
+    if [ -n ${IDENTITY} ]
+    then
+        launch_args+=("-I" "${IDENTITY}")
+    fi
+
+    launch_args+=(${EXTRA_OPTS})
+
+    # launch the client!
+    echo -n "$$" > "${WORKER_SHELL_PIDFILE}"
     cd /openbench/OpenBench/Client/
+
+    echo "python3 client.py ${launch_args[@]}"
+
     if [ -z "${DO_DRY_RUN}" ]
     then
         export OPENBENCH_USERNAME="${USERNAME}"
         export OPENBENCH_PASSWORD="${PASSWORD}"
 
-        python3 client.py -T "${THREADS}" -S "http://chess.grantnet.us/" -N 1 ${SYZYGYPARM} ${EXTRA_OPTS}
+        python3 client.py "${launch_args[@]}"
     else
         echo "Dry-run requested, skipping client launch"
     fi

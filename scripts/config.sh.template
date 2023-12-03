@@ -4,8 +4,12 @@
 USERNAME='<unset>'
 PASSWORD='<unset>'
 
-# threads used by OpenBench client; blank = autodetect
+# CPU threads and sockets used by OpenBench client; blank = autodetect
 THREADS=
+SOCKETS=
+
+# OpenBench machine pseudonym (optional)
+IDENTITY=
 
 # directory of Syzygy files (optional)
 SYZYGY=
