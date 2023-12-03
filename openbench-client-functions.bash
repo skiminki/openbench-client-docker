@@ -170,7 +170,7 @@ launch_openbench_client ()
 	export OPENBENCH_USERNAME="${USERNAME}"
 	export OPENBENCH_PASSWORD="${PASSWORD}"
 
-	python3 Client.py -T "${THREADS}" -S "http://chess.grantnet.us/" ${SYZYGYPARM} ${EXTRA_OPTS}
+	python3 client.py -T "${THREADS}" -S "http://chess.grantnet.us/" -N 1 ${SYZYGYPARM} ${EXTRA_OPTS}
     else
 	echo "Dry-run requested, skipping client launch"
     fi
