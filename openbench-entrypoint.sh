@@ -33,12 +33,12 @@ fi
 if [ $# -ge 1 ]
 then
     case "$1" in
-	"bash")      CMD="bash"      ; shift ;;
-	"bench-all") CMD="bench-all" ; shift ;;
-	"status")    CMD="status"    ; shift ;;
-	"start")     CMD="start"     ; shift ;;
-	"stop")      CMD="stop"      ; shift ;;
-	"scripts")   CMD="scripts"   ; shift ;;
+        "bash")      CMD="bash"      ; shift ;;
+        "bench-all") CMD="bench-all" ; shift ;;
+        "status")    CMD="status"    ; shift ;;
+        "start")     CMD="start"     ; shift ;;
+        "stop")      CMD="stop"      ; shift ;;
+        "scripts")   CMD="scripts"   ; shift ;;
     esac
 fi
 
@@ -48,9 +48,9 @@ DO_DRY_RUN=
 while [ $# -gt 0 ]
 do
     case "$1" in
-	--dry-run)    DO_DRY_RUN=1   ; shift ;;
-	--wait)       DO_WAIT=1      ; shift ;;
-	*)            CMD="help"     ; shift ;;
+        --dry-run)    DO_DRY_RUN=1   ; shift ;;
+        --wait)       DO_WAIT=1      ; shift ;;
+        *)            CMD="help"     ; shift ;;
     esac
 done
 
@@ -58,56 +58,56 @@ done
 case "${CMD}" in
 
     "start")
-	# already running?
-	set_worker_pid
-	if [ "${WORKER_PID}" ]
-	then
-	    echo "Client is already launched!"
-	    exit 3
-	fi
-	configure_openbench_client
-	rm -f "$WORKER_EXIT_FILE"
-	launch_openbench_client
-	;;
+        # already running?
+        set_worker_pid
+        if [ "${WORKER_PID}" ]
+        then
+            echo "Client is already launched!"
+            exit 3
+        fi
+        configure_openbench_client
+        rm -f "$WORKER_EXIT_FILE"
+        launch_openbench_client
+        ;;
 
     "stop")
-	set_worker_pid
+        set_worker_pid
 
-	if [ "${WORKER_PID}" ]
-	then
-	    echo "Signaling client to stop after the current batch"
-	    touch "$WORKER_EXIT_FILE"
-	    if [ "${DO_WAIT}" = "1" ]
-	    then
-		echo "Waiting for client to stop... (PID=${WORKER_PID})"
-		tail --pid="${WORKER_PID}" -f /dev/null
-	    fi
-	else
-	    echo "Client not launched"
-	fi
-	;;
+        if [ "${WORKER_PID}" ]
+        then
+            echo "Signaling client to stop after the current batch"
+            touch "$WORKER_EXIT_FILE"
+            if [ "${DO_WAIT}" = "1" ]
+            then
+                echo "Waiting for client to stop... (PID=${WORKER_PID})"
+                tail --pid="${WORKER_PID}" -f /dev/null
+            fi
+        else
+            echo "Client not launched"
+        fi
+        ;;
 
     "help")
-	print_help
-	;;
+        print_help
+        ;;
 
     "scripts")
-	print_scripts_extract
-	;;
+        print_scripts_extract
+        ;;
 
     "status")
-	print_status_info
-	;;
+        print_status_info
+        ;;
 
     "bash")
-	cd /openbench
-	exec bash
-	;;
+        cd /openbench
+        exec bash
+        ;;
 
     "bench-all")
-	configure_openbench_client
-	update_openbench_bench_repos
-	launch_openbench_bench_all
-	;;
+        configure_openbench_client
+        update_openbench_bench_repos
+        launch_openbench_bench_all
+        ;;
 
 esac

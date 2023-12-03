@@ -69,10 +69,10 @@ configure_openbench_client ()
 {
     if [ \! -f /config.sh ]
     then
-	echo
-	echo "Error: File /config.sh not mounted"
-	echo
-	exit 1
+        echo
+        echo "Error: File /config.sh not mounted"
+        echo
+        exit 1
     fi
 
     # convert config.sh to Unix newlines before sourcing
@@ -82,39 +82,39 @@ configure_openbench_client ()
     rm -- "${TMPFILE}"
 
     if [    "${USERNAME:-<unset>}" = "<unset>" \
-	 -o "${PASSWORD:-<unset>}" = "<unset>" ]
+         -o "${PASSWORD:-<unset>}" = "<unset>" ]
     then
-	echo "USERNAME and PASSWORD must be set when launching the openbench container"
-	exit 2
+        echo "USERNAME and PASSWORD must be set when launching the openbench container"
+        exit 2
     fi
 
     if [ -z "${THREADS}" ]
     then
-	echo "Detecting concurrency..."
-	# print CPU information -- remove couple spaces for pretty printing
-	printf -- "- "
-	lscpu | grep "^Model name:" | sed -e 's/Model name: */Model name: /'
+        echo "Detecting concurrency..."
+        # print CPU information -- remove couple spaces for pretty printing
+        printf -- "- "
+        lscpu | grep "^Model name:" | sed -e 's/Model name: */Model name: /'
 
-	local NUM_PHYSICAL_CORES="$(lscpu --parse==SOCKET,CORE | grep -v '^#' | sort -u | wc -l)"
-	local NUM_LOGICAL_CORES="$(lscpu --parse==SOCKET,CORE | grep -v '^#' | wc -l)"
+        local NUM_PHYSICAL_CORES="$(lscpu --parse==SOCKET,CORE | grep -v '^#' | sort -u | wc -l)"
+        local NUM_LOGICAL_CORES="$(lscpu --parse==SOCKET,CORE | grep -v '^#' | wc -l)"
 
-	echo "- Total physical cores: ${NUM_PHYSICAL_CORES}"
-	echo "- Total logical cores (incl. HT): ${NUM_LOGICAL_CORES}"
+        echo "- Total physical cores: ${NUM_PHYSICAL_CORES}"
+        echo "- Total logical cores (incl. HT): ${NUM_LOGICAL_CORES}"
 
-	if [ $NUM_PHYSICAL_CORES -lt $NUM_LOGICAL_CORES ]
-	then
-	    THREADS=$NUM_PHYSICAL_CORES
-	else
-	    THREADS=$(($NUM_PHYSICAL_CORES - 1))
-	fi
-	echo "- Using concurrency: ${THREADS}"
+        if [ $NUM_PHYSICAL_CORES -lt $NUM_LOGICAL_CORES ]
+        then
+            THREADS=$NUM_PHYSICAL_CORES
+        else
+            THREADS=$(($NUM_PHYSICAL_CORES - 1))
+        fi
+        echo "- Using concurrency: ${THREADS}"
     fi
 
     if [ -d /syzygy ]
     then
-	SYZYGYENABLED=yes
+        SYZYGYENABLED=yes
     else
-	SYZYGYENABLED=
+        SYZYGYENABLED=
     fi
 
     # setup cache
@@ -147,9 +147,9 @@ set_worker_pid ()
 {
     if [ -f "${WORKER_SHELL_PIDFILE}" ]
     then
-	WORKER_PID="$(cat "${WORKER_SHELL_PIDFILE}")"
+        WORKER_PID="$(cat "${WORKER_SHELL_PIDFILE}")"
     else
-	WORKER_PID=
+        WORKER_PID=
     fi
 }
 
@@ -159,20 +159,20 @@ launch_openbench_client ()
     echo -n "$$" > "${WORKER_SHELL_PIDFILE}"
     if [ -d /syzygy ]
     then
-	SYZYGYPARM="--syzygy /syzygy"
+        SYZYGYPARM="--syzygy /syzygy"
     else
-	SYZYGYPARM=
+        SYZYGYPARM=
     fi
 
     cd /openbench/OpenBench/Client/
     if [ -z "${DO_DRY_RUN}" ]
     then
-	export OPENBENCH_USERNAME="${USERNAME}"
-	export OPENBENCH_PASSWORD="${PASSWORD}"
+        export OPENBENCH_USERNAME="${USERNAME}"
+        export OPENBENCH_PASSWORD="${PASSWORD}"
 
-	python3 client.py -T "${THREADS}" -S "http://chess.grantnet.us/" -N 1 ${SYZYGYPARM} ${EXTRA_OPTS}
+        python3 client.py -T "${THREADS}" -S "http://chess.grantnet.us/" -N 1 ${SYZYGYPARM} ${EXTRA_OPTS}
     else
-	echo "Dry-run requested, skipping client launch"
+        echo "Dry-run requested, skipping client launch"
     fi
 
     # client has exited
@@ -195,13 +195,13 @@ print_status_info ()
 
     if [ "${WORKER_PID}" ]
     then
-	if [ -f "${WORKER_EXIT_FILE}" ]
-	then
-	    echo "OpenBench client status:  RUNNING (pid in container=${WORKER_PID}), EXIT REQUESTED"
-	else
-	    echo "OpenBench client status:  RUNNING (pid in container=${WORKER_PID})"
-	fi
+        if [ -f "${WORKER_EXIT_FILE}" ]
+        then
+            echo "OpenBench client status:  RUNNING (pid in container=${WORKER_PID}), EXIT REQUESTED"
+        else
+            echo "OpenBench client status:  RUNNING (pid in container=${WORKER_PID})"
+        fi
     else
-	echo "OpenBench client status:  STOPPED"
+        echo "OpenBench client status:  STOPPED"
     fi
 }
