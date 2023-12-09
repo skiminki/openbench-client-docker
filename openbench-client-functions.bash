@@ -129,7 +129,7 @@ configure_openbench_client ()
     fi
 
     # setup cache
-    mkdir -p /cache/Client /cache/{.cache,.cargo} /cache/Scripts/{Networks,Repositories,Engines}
+    mkdir -p /cache/Client /cache/{.cache,.cargo} /cache/Scripts/{Networks,Engines}
     cp /openbench/OpenBench/Client.orig/* /cache/Client/
 
     echo "========================================================="
@@ -140,20 +140,6 @@ configure_openbench_client ()
     echo "Syzygy:                      ${SYZYGYENABLED:-no}"
     echo "Extra client opts:           ${EXTRA_OPTS}"
     echo "========================================================="
-}
-
-update_openbench_bench_repos ()
-{
-    cd /cache/Scripts/Repositories/
-    for repo in $(ls)
-    do
-        echo "Synchronizing /cache/Scripts/Repositories/${repo}"
-        cd "${repo}"
-        git checkout HEAD .
-        git pull
-        cd ..
-    done
-    cd /
 }
 
 set_worker_pid ()
