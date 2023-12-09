@@ -35,7 +35,8 @@ Other useful commands:
   scripts      Output a command that extracts start/stop/check scripts and
                a template for the config file.
   bench-all    Update repositories, rebuild, and bench all
-               engines. Useful for testing that the container works.
+               engines. Useful for testing that the container works. Unused
+               options are passed to bench_all.py.
   bash         Start a shell. Useful for debugging.
 
 Note: If /config.sh is mounted for the container, the default command is
@@ -128,7 +129,7 @@ configure_openbench_client ()
     fi
 
     # setup cache
-    mkdir -p /cache/Client /cache/{.cache,.cargo} /cache/Scripts/{Networks,Repositories,Binaries}
+    mkdir -p /cache/Client /cache/{.cache,.cargo} /cache/Scripts/{Networks,Repositories,Engines}
     cp /openbench/OpenBench/Client.orig/* /cache/Client/
 
     echo "========================================================="
@@ -203,12 +204,14 @@ launch_openbench_client ()
 
 launch_openbench_bench_all ()
 {
-    rm -f /openbench/OpenBench/Scripts/Binaries/*
-
-    export OPENBENCH_USERNAME="${USERNAME}"
-    export OPENBENCH_PASSWORD="${PASSWORD}"
     cd /openbench/OpenBench/Scripts/
-    python3 ./bench_all.py -T 1 -S 1
+    echo python3 bench_all.py -S "http://chess.grantnet.us/" "$@"
+    if [ -z "${DO_DRY_RUN}" ]
+    then
+        export OPENBENCH_USERNAME="${USERNAME}"
+        export OPENBENCH_PASSWORD="${PASSWORD}"
+        python3 bench_all.py -S "http://chess.grantnet.us/" "$@"
+    fi
 }
 
 print_status_info ()

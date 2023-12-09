@@ -30,11 +30,13 @@ else
     CMD="help"
 fi
 
+CMD_ARG_PASSTHROUGH=
+
 if [ $# -ge 1 ]
 then
     case "$1" in
         "bash")      CMD="bash"      ; shift ;;
-        "bench-all") CMD="bench-all" ; shift ;;
+        "bench-all") CMD="bench-all" ; CMD_ARG_PASSTHROUGH=y ; shift ;;
         "status")    CMD="status"    ; shift ;;
         "start")     CMD="start"     ; shift ;;
         "stop")      CMD="stop"      ; shift ;;
@@ -50,7 +52,12 @@ do
     case "$1" in
         --dry-run)    DO_DRY_RUN=1   ; shift ;;
         --wait)       DO_WAIT=1      ; shift ;;
-        *)            CMD="help"     ; shift ;;
+        *)            if [ -z "$CMD_ARG_PASSTHROUGH" ]
+                      then
+                          CMD="help"
+                      fi
+                      break
+                      ;;
     esac
 done
 
@@ -107,7 +114,7 @@ case "${CMD}" in
     "bench-all")
         configure_openbench_client
         update_openbench_bench_repos
-        launch_openbench_bench_all
+        launch_openbench_bench_all "$@"
         ;;
 
 esac
