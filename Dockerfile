@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Baseline
-FROM ubuntu:23.10
+FROM ubuntu:24.04
 
 # Update and install packages needed to run OpenBench engine testing
 RUN apt-get update && \
@@ -35,9 +35,9 @@ RUN apt-get update && \
     make \
     python3 \
     python3-cpuinfo \
-    python3-distutils \
     python3-psutil \
     python3-requests \
+    python3-setuptools \
     rustc \
     wget \
     && \
