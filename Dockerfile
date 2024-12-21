@@ -1,5 +1,5 @@
 # Docker image for OpenBench client
-# Copyright (C) 2022-2023  Sami Kiminki
+# Copyright (C) 2022-2024  Sami Kiminki
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Baseline
-FROM ubuntu:23.04
+FROM ubuntu:24.04
 
 # Update and install packages needed to run OpenBench engine testing
 RUN apt-get update && \
@@ -34,8 +34,8 @@ RUN apt-get update && \
     llvm \
     make \
     python3 \
-    python3-distutils \
     python3-requests \
+    python3-setuptools \
     rustc \
     wget \
     && \
