@@ -7,6 +7,9 @@ PASSWORD='<unset>'
 # threads used by OpenBench client; blank = autodetect
 THREADS=
 
+# sockets used by OpenBench client; blank = autodetect
+SOCKETS=
+
 # directory of Syzygy files (optional)
 SYZYGY=
 
