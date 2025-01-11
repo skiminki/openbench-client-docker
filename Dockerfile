@@ -70,7 +70,7 @@ RUN cd /openbench && \
 RUN mv /openbench/OpenBench/Client /openbench/OpenBench/Client.orig && \
     ln -snf /cache/Client /openbench/OpenBench/ && \
     ln -snf /cache/.cargo /cache/.cache /openbench/ && \
-    ln -snf /cache/Scripts/Networks /cache/Scripts/Repositories /cache/Scripts/Binaries /openbench/OpenBench/Scripts/
+    ln -snf /cache/Scripts/Networks /cache/Scripts/Repositories /cache/Scripts/Binaries /cache/Scripts/Engines /openbench/OpenBench/Scripts/
 
 # Entrypoint bash scripts
 COPY openbench-entrypoint.sh \

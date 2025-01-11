@@ -123,7 +123,7 @@ configure_openbench_client ()
     fi
 
     # setup cache
-    mkdir -p /cache/Client /cache/{.cache,.cargo} /cache/Scripts/{Networks,Repositories,Binaries}
+    mkdir -p /cache/Client /cache/{.cache,.cargo} /cache/Scripts/{Networks,Repositories,Binaries,Engines}
     cp /openbench/OpenBench/Client.orig/* /cache/Client/
 
     echo "========================================================="
@@ -192,7 +192,7 @@ launch_openbench_bench_all ()
     export OPENBENCH_USERNAME="${USERNAME}"
     export OPENBENCH_PASSWORD="${PASSWORD}"
     cd /openbench/OpenBench/Scripts/
-    python3 ./bench_all.py -T 1 -S 1
+    python3 ./bench_all.py --threads 1 --sets 1 --server "http://chess.grantnet.us/"
 }
 
 print_status_info ()
