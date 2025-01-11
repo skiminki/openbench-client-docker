@@ -34,6 +34,8 @@ RUN apt-get update && \
     llvm \
     make \
     python3 \
+    python3-cpuinfo \
+    python3-psutil \
     python3-requests \
     python3-setuptools \
     rustc \
@@ -56,11 +58,11 @@ USER openbench:openbench
 ARG OPENBENCH_GIT_HASH
 RUN cd /openbench && \
     git lfs install && \
-    git clone --single-branch --branch master https://github.com/skiminki/OpenBench.git && \
+    git clone --single-branch --branch master https://github.com/AndyGrant/OpenBench.git && \
     cd OpenBench && \
     git config advice.detachedHead false && \
     git checkout "${OPENBENCH_GIT_HASH}" && \
-    rm -r .git CoreFiles/cutechess-windows.exe
+    rm -r .git
 
 # Rename the client directory. The contents of Client.orig are going is going to be copied
 # Client (which is at /cache/Client) on launch.

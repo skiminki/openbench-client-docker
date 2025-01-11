@@ -110,6 +110,11 @@ configure_openbench_client ()
 	echo "- Using concurrency: ${THREADS}"
     fi
 
+    if [ -z "${SOCKETS}" ]
+    then
+        SOCKETS=1
+    fi
+
     if [ -d /syzygy ]
     then
 	SYZYGYENABLED=yes
@@ -124,6 +129,7 @@ configure_openbench_client ()
     echo "========================================================="
     echo "OpenBench username:        ${USERNAME:-<unset>}"
     echo "OpenBench threads:         ${THREADS:-<unset>} threads"
+    echo "OpenBench sockets:         ${SOCKETS:-<unset>} sockets"
     echo "Syzygy:                    ${SYZYGYENABLED:-no}"
     echo "Extra client opts:         ${EXTRA_OPTS}"
     echo "========================================================="
@@ -170,7 +176,7 @@ launch_openbench_client ()
 	export OPENBENCH_USERNAME="${USERNAME}"
 	export OPENBENCH_PASSWORD="${PASSWORD}"
 
-	python3 Client.py -T "${THREADS}" -S "http://chess.grantnet.us/" ${SYZYGYPARM} ${EXTRA_OPTS}
+	python3 client.py -T "${THREADS}" -N "${SOCKETS}" -S "http://chess.grantnet.us/" ${SYZYGYPARM} ${EXTRA_OPTS}
     else
 	echo "Dry-run requested, skipping client launch"
     fi
